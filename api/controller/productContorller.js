@@ -17,7 +17,7 @@ const createItem=async (req, res, next)=>{
         return res.status(201).json({
             success:false,
             message:`${error.message}`,
-            response:response,
+            response:[],
             error:error
         })
     }
@@ -38,7 +38,7 @@ const removeItem=async (req, res, next)=>{
         return res.status(201).json({
             success:false,
             message:`${error.message}`,
-            response:response,
+            response:[],
             error:error
         })
     }
@@ -59,7 +59,7 @@ const updateItem=async (req, res, next)=>{
         return res.status(201).json({
             success:false,
             message:`${error.message}`,
-            response:response,
+            response:[],
             error:error
         })
     }
@@ -67,7 +67,6 @@ const updateItem=async (req, res, next)=>{
 const getItem=async (req, res, next)=>{
     try {
         const response=await productservice.GetItem(req.params.id);
-
         return res.status(201).json({
             success:true,
             message:"item is succesfully fetched",
@@ -79,19 +78,19 @@ const getItem=async (req, res, next)=>{
         return res.status(201).json({
             success:false,
             message:`${error.message}`,
-            response:response,
+            response:[],
             error:error
         })
     }
 }
 const getAllItem=async (req, res, next)=>{
     try {
-        const response=await productservice.GetItems(req.body);
-
+        const response=await productservice.GetItems(req.query);
         return res.status(201).json({
             success:true,
             message:"item's is succesfully fetched",
             response:response,
+            count:response.length,
             error:{}
         })
 
@@ -99,7 +98,7 @@ const getAllItem=async (req, res, next)=>{
         return res.status(201).json({
             success:false,
             message:`${error.message}`,
-            response:response,
+            response:[],
             error:error
         })
     }

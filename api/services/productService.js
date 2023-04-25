@@ -39,14 +39,16 @@ class productService{
                 throw error;
             }
     }
-    async GetItems(data){
+    async GetItems(query){
         try {
-            const response=await this.productrepo.GetAll(data);
+            const response=await this.productrepo.GetAll(query);
+
                 return response;
             } catch (error) {
                 throw error;
             }
     }
+    
 
 }
 

@@ -1,12 +1,12 @@
 const Connect = require('./config/databseConfig');
 
 require('dotenv').config({path:"api/config/Config.env"});
-const mainRoute=require('./routes');
 
 const app=require('./app');
 
 
-app.use('/api',mainRoute);
+
+
 
 
 

@@ -29,15 +29,21 @@ class ProductRepo {
    }  
    async Get(id){
     try {
-    const response=await Product.findOne(id);
+    const response=await Product.findOne({_id:id});
         return response;
     } catch (error) {
         throw error;
     }
    }
-   async GetAll(data){
+   async GetAll(query){
     try {
-    const response=await Product.find(data);
+        console.log(query,"query");
+        const page=Math.abs(query.page)||1;
+        const noOfItems=5;
+        const skip=(page-1)*noOfItems;
+        const search="sam";
+        const response=await Product.find(
+            { name: { $regex: `${search}`, $options: 'i' } } ).skip(skip).limit(noOfItems);
         return response;
     } catch (error) {
         throw error;
