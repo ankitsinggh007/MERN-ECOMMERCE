@@ -89,7 +89,6 @@ try {
     const User=await userservice.findUser({email});
     
     if(!User) throw new Error("Please enter correct password");
-    console.log(User);
     const resetToken=User.genResetPasswordToken();
 
         User.save();

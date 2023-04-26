@@ -63,13 +63,12 @@ userSchema.methods.comparePassword = async function(password){
 }
 userSchema.methods.genToken= function(){
 
-    return JWT.sign({id:this.id},process.env.Server_Secret,{expiresIn:process.env.Expire_Token});
+    return JWT.sign({id:this._id},process.env.Server_Secret,{expiresIn:process.env.Expire_Token});
     
 }
 userSchema.methods.genResetPasswordToken=function(){
 
     const resetToken = crypto.randomBytes(20).toString("hex");
-    console.log(resetToken,"resetToken");
     this.resetPasswordToken = crypto
     .createHash("sha256")
     .update(resetToken)
