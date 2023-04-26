@@ -4,7 +4,9 @@ class ProductRepo {
 
 
    async Create(data){
-    try {
+    try {   
+        console.log(data,)
+        
     const response=await Product.create(data) ;
         return response;
     } catch (error) {

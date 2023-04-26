@@ -123,9 +123,52 @@ try {
 }
 
 }
+const getUserDeatils=async (req,res,next)=>{
 
+       try {
+        const response=await userservice.findUser(req.user._id);
+          console.log(response);
+        res.status(200).json({
+            success:true,
+            message:'sucessfully fetched user details',
+            data:response,
+        })
+       } catch (error) {
+        res.status(400).json({
+            success:false,
+            message:`${error.message}`,
+            data:[],
+            error:error
+        })
+       }  
+
+}
+const updateUserDetails=async(req,res,next)=>{
+
+ try {
+    const {name,email}=req.body;
+    if(!(name&&email)){
+     throw new Error('please provide name or email to update'); 
+    }
+    const response=await userservice.update(req.user._id,{name,email});
+    console.log(response,"response");
+    return res.status(201).json({
+        sucess:true,
+        message:'sucessfully updated',
+        data:response,
+        error:{}
+    })
+ } catch (error) {
+    return res.status(400).json({
+        sucess:true,
+        message: `${error.message}`,
+        data:[],
+        error:error
+    })
+ }
+}
 
 
 module.exports={
-    LogOut,Login,Register,forgotPassword
+    LogOut,Login,Register,forgotPassword,getUserDeatils,updateUserDetails
 }

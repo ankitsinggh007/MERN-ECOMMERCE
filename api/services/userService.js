@@ -44,6 +44,14 @@ class userService{
         }
     }
     
+    async update(id,data){
+        try {
+            const response=await this.userrepo.UpdateUser(id,data);
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
     
     
 

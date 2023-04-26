@@ -5,9 +5,9 @@ const { isAuthenticated, isAutherized } = require('../../middleware/Authenticati
 const routers=express.Router();
 
 routers.get('/:id',getItem);
-routers.get('/',isAuthenticated,isAutherized('admin'),getAllItem);
-routers.post('/',createItem);
-routers.delete('/:id',removeItem);
-routers.put('/:id',updateItem);
+routers.get('/',getAllItem);
+routers.post('/',isAuthenticated,isAutherized('admin'),createItem);
+routers.delete('/:id',isAuthenticated,isAutherized('admin'),removeItem);
+routers.put('/:id',isAuthenticated,isAutherized('admin'),updateItem);
 
 module.exports=routers;

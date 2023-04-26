@@ -4,7 +4,7 @@ const productservice=new productService();
 
 const createItem=async (req, res, next)=>{
     try {
-        const response=await productservice.listItem(req.body);
+        const response=await productservice.listItem({...req.body,user:req.user._id});
 
         return res.status(201).json({
             success:true,
@@ -85,7 +85,6 @@ const getItem=async (req, res, next)=>{
 }
 const getAllItem=async (req, res, next)=>{
     try {
-        console.log(req.user,"req.user")
         const response=await productservice.GetItems(req.query);
         return res.status(201).json({
             success:true,
