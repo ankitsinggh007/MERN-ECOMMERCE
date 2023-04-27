@@ -46,7 +46,14 @@ class userService{
             throw error;
         }
     }
-    
+    async findAllUser(data){
+        try {
+            const response=await this.userrepo.GetAllUser(data);
+        return response;
+        } catch (error) {
+            throw error;
+        }
+    }
     async update(id,data){
         try {
             const response=await this.userrepo.UpdateUser(id,data);
