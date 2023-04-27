@@ -1,3 +1,4 @@
+const User = require("../models/User");
 const productService = require("../services/productService");
 const userService = require("../services/userService");
 const sendEmail=require('../utils/passwordRecover')
@@ -25,7 +26,6 @@ const Register=async (req, res, next)=>{
         })
     }
 }
-
 const Login=async (req,res,next)=>{
     try {
         const response=await userservice.login(req.body);
@@ -127,7 +127,6 @@ const getUserDeatils=async (req,res,next)=>{
 
        try {
         const response=await userservice.findUser(req.user._id);
-          console.log(response);
         res.status(200).json({
             success:true,
             message:'sucessfully fetched user details',
@@ -144,14 +143,12 @@ const getUserDeatils=async (req,res,next)=>{
 
 }
 const updateUserDetails=async(req,res,next)=>{
-
  try {
     const {name,email}=req.body;
     if(!(name&&email)){
      throw new Error('please provide name or email to update'); 
     }
     const response=await userservice.update(req.user._id,{name,email});
-    console.log(response,"response");
     return res.status(201).json({
         sucess:true,
         message:'sucessfully updated',
@@ -167,8 +164,117 @@ const updateUserDetails=async(req,res,next)=>{
     })
  }
 }
+const updateUserpassword=async(req,res,next)=>{
+    try {
+        const {oldPassword,newPassword,confirmPassword}=req.body;
+        
+        const user=await userservice.findUser(req.user._id);
+           if(!oldPassword) throw new Error('please provide password'); 
+            
+      const  isPasswordMatch= await user.comparePassword(req.body.oldPassword);
+        if(!isPasswordMatch) throw new Error('please provide correct password');
+        if(!newPassword||!confirmPassword) throw new Error(`please provide new and confirm password `);  
+        if(newPassword!=confirmPassword) throw new Error(`mismatched new and confirm password`);
+
+        user.password=confirmPassword;
+        const response=await user.save()
+
+        return res.status(201).json({
+            sucess:true,
+            message:'sucessfully updated',
+            data:response,
+            error:{}
+        })
+     } catch (error) {
+        return res.status(400).json({
+            sucess:false,
+            message: `${error.message}`,
+            data:[],
+            error:error
+        })
+     }
+}
+
+// for admin
+
+const deleteUserAdmin=async (req,res,next)=>{
+    try {
+        const {id}=req.params;
+        console.log(id,"id")
+        const response=await userservice.delete(id); 
+
+        return res.status(201).json({
+            sucess:true,
+            message:'sucessfully deleted',
+            data:response,
+            error:{}
+        })
+     } catch (error) {
+        return res.status(400).json({
+            sucess:false,
+            message: `${error.message}`,
+            data:[],
+            error:error
+        })
+     }
+    
+}
+
+const updateUserByAdmin=async(req,res,next)=>{
+
+    try {
+        const {id}=req.params;
+            console.log(req.body);
+            if(!req.body.role) throw new Error('please provide role')
+        const response=await userservice.update(id,req.body); 
+
+        return res.status(201).json({
+            sucess:true,
+            message:'sucessfully updated',
+            data:response,
+            error:{}
+        })
+     } catch (error) {
+        return res.status(400).json({
+            sucess:false,
+            message: `${error.message}`,
+            data:[],
+            error:error
+        })
+     }
+
+}
+const getAllUser=async(req,res,next)=>{
+    try {
+        const {id}=req.params;
+        
+        let response;
+if(id){
+     response=await userservice.getUser(id); 
+
+}
+else{
+     response=await userservice.getUser({}); 
+
+}
+        return res.status(201).json({
+            sucess:true,
+            message:'sucessfully deleted',
+            data:response,
+            error:{}
+        })
+     } catch (error) {
+        return res.status(400).json({
+            sucess:false,
+            message: `${error.message}`,
+            data:[],
+            error:error
+        })
+     }
+    
+}
 
 
 module.exports={
-    LogOut,Login,Register,forgotPassword,getUserDeatils,updateUserDetails
+    LogOut,Login,Register,forgotPassword,getUserDeatils,updateUserDetails,updateUserpassword,deleteUserAdmin,updateUserByAdmin,getAllUser
 }

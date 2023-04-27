@@ -24,8 +24,11 @@ class userService{
         const response=await this.userrepo.GetUser({email});
         
         if(!response) throw new Error("please provide correct email");
+        console.log(password,"password");
         const isPasswordMatch=await response.comparePassword(password);
-        if(isPasswordMatch) throw new Error("email or password is not correct");
+        console.log(isPasswordMatch)
+        if(!isPasswordMatch) throw new Error("please provide correct password");
+        
                 
             return response.genToken();
             
@@ -50,6 +53,15 @@ class userService{
             return response;
         } catch (error) {
             throw error;
+        }
+    }
+    async delete(id){
+
+        try {
+            const response = await this.userrepo.DeleteUser(id);
+        return response;
+        } catch (error) {
+            throw error
         }
     }
     
