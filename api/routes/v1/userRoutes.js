@@ -1,5 +1,5 @@
 const express=require('express');
-const { Register, Login, LogOut, forgotPassword, getUserDeatils,updateUserDetails,updateUserpassword, deleteUserAdmin, updateUserByAdmin, getAllUser } = require('../../controller/userController');
+const { Register, Login, LogOut, forgotPassword, getUserDeatils,updateUserDetails,updateUserpassword, deleteUserAdmin, updateUserByAdmin, getAllUser, createProductReview } = require('../../controller/userController');
 const { isAuthenticated } = require('../../middleware/Authentication');
 const { isAutherized } = require('../../middleware/Authentication');
 

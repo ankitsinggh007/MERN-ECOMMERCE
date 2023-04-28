@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const ProductRepo = require("../repository/productRepo");
 const userRepo = require("../repository/userRepo");
 
 class userService{

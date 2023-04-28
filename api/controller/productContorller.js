@@ -103,8 +103,28 @@ const getAllItem=async (req, res, next)=>{
         })
     }
 }
+const createProductReview=async(req,res,next)=>{
 
+    try {
+        const response=await productservice.createReview(req);
+
+     return res.status(201).json({
+            success:true,
+            message:"item's reviewed sucessfully",
+            response:response,
+            error:{}
+        })
+
+    } catch (error) {
+        return res.status(400).json({
+            success:false,
+            message:`${error.message}`,
+            response:[],
+            error:error
+        })
+    }
+    }
 module.exports={
     createItem,removeItem,getAllItem,
-    updateItem,getItem
+    updateItem,getItem,createProductReview
 }

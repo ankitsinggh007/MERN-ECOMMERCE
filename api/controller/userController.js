@@ -253,6 +253,7 @@ const getAllUser = async (req, res, next) => {
   }
 };
 
+
 module.exports = {
   LogOut,
   Login,
@@ -264,4 +265,5 @@ module.exports = {
   deleteUserAdmin,
   updateUserByAdmin,
   getAllUser,
+  
 };
