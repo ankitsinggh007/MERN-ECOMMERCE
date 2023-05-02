@@ -14,7 +14,7 @@ function Product({Product}) {
     console.log(Product,"product")
   return (
     <Link className='productCard'to={Product._id}>
-        <img src={Product.images[0].url} alt={Product.name} />
+        <img src={Product.images[0]?.url} alt={Product.name} />
         <p>{Product.name}</p>
         <div>
             <ReactStars {...options}/>
