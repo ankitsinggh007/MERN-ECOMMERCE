@@ -10,10 +10,9 @@ const options={
     value:2.5,
     isHalf:true,
 };
-function Product({Product}) {
-    console.log(Product,"product")
+function ProductCard({Product}) {
   return (
-    <Link className='productCard'to={Product._id}>
+    <Link className='productCard'to={`product/${Product._id}`}>
         <img src={Product.images[0]?.url} alt={Product.name} />
         <p>{Product.name}</p>
         <div>
@@ -25,4 +24,4 @@ function Product({Product}) {
   )
 }
 
-export default Product
+export default ProductCard

@@ -1,9 +1,24 @@
 import {createStore,combineReducers,applyMiddleware} from 'redux';
 import thunk from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension';
-import {productReducer} from './reducers/productReducer';
+import {ProductDetailsReducer, productReducer} from './reducers/productReducer';
+
+import {
+    allUsersReducer,
+    forgotPasswordReducer,
+    profileReducer,
+    userDetailsReducer,
+    userReducer,
+  } from "./reducers/userReducer";
+
 const reducer=combineReducers({
-    products:productReducer
+    products:productReducer,
+    product_details:ProductDetailsReducer,
+    user: userReducer,
+    profile: profileReducer,
+    forgotPassword: forgotPasswordReducer,
+    allUsers: allUsersReducer,
+    userDetails: userDetailsReducer,
 });
 
 let initialState={};

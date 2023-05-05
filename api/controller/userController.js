@@ -2,12 +2,21 @@ const User = require("../models/User");
 const productService = require("../services/productService");
 const userService = require("../services/userService");
 const sendEmail = require("../utils/passwordRecover");
-
+const cloudinary=require('cloudinary').v2;
 const userservice = new userService();
 
 const Register = async (req, res, next) => {
-  try {
-    const response = await userservice.Create(req.body);
+
+  try {  
+    const myCloud = await cloudinary.uploader.upload(`${req.body.avatar}`, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
+    const response = await userservice.Create({...req.body,avatar:{
+      public_id: myCloud.public_id,
+      url:myCloud.secure_url
+    }});
     return res.status(201).json({
       success: true,
       message: "user is succesfully registered",
@@ -25,7 +34,7 @@ const Register = async (req, res, next) => {
 };
 const Login = async (req, res, next) => {
   try {
-    const response = await userservice.login(req.body);
+    const {response,token} = await userservice.login(req.body);
 
     const option = {
       expires: new Date(
@@ -33,7 +42,7 @@ const Login = async (req, res, next) => {
       ),
       httpOnly: true,
     };
-    return res.status(200).cookie("token", response, option).json({
+    return res.status(200).cookie("token", token, option).json({
       success: true,
       message: "user is succesfully login",
       response: response,
@@ -112,6 +121,7 @@ const forgotPassword = async (req, res, next) => {
 const getUserDeatils = async (req, res, next) => {
   try {
     const response = await userservice.findUser(req.user._id);
+    console.log(response,"response")
     res.status(200).json({
       success: true,
       message: "sucessfully fetched user details",

@@ -1,29 +1,8 @@
 const Connect = require('./config/databseConfig');
-
+const cloudinary=require('cloudinary').v2;
 require('dotenv').config({path:"api/config/Config.env"});
 
 const app=require('./app');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 const connect=async()=>{
@@ -37,5 +16,11 @@ const connect=async()=>{
         throw error;
     }
 }
-
+cloudinary.config({ 
+    cloud_name: 'df9ovzwh6',
+    api_key: 959872715293163,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });    
 connect();
+
+  

@@ -25,13 +25,11 @@ class userService{
         const response=await this.userrepo.GetUser({email});
         
         if(!response) throw new Error("please provide correct email");
-        console.log(password,"password");
         const isPasswordMatch=await response.comparePassword(password);
-        console.log(isPasswordMatch)
         if(!isPasswordMatch) throw new Error("please provide correct password");
         
-                
-            return response.genToken();
+                    const token=response.genToken()
+            return {response,token};
             
         
         } catch (error) {
