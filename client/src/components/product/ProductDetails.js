@@ -6,6 +6,7 @@ import { clearErrors, getProductDetails } from "../../actions/productAction";
 import { useParams } from "react-router-dom";
 import { Rating } from "@material-ui/lab";
 import Loader from "../layout/Loader/Loader";
+import { addItemsToCart } from "../../actions/cartActions";
 import {
   Dialog,
   DialogActions,
@@ -14,7 +15,6 @@ import {
   Button,
 } from "@material-ui/core";
 import ReviewCard from "./ReviewCard.js";
-import {useAlert} from 'react-alert'
 const ProductDetails = ({ match }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const ProductDetails = ({ match }) => {
   };
 
   const addToCartHandler = () => {
-    // dispatch(addItemsToCart(match.params.id, quantity));
+    dispatch(addItemsToCart(id, quantity));
     // alert.success("Item Added To Cart");
   };
    
@@ -60,7 +60,7 @@ const ProductDetails = ({ match }) => {
   };
 
   const reviewSubmitHandler = () => {
-    const myForm = new FormData();
+    // const myForm = new FormData();
 
     // myForm.set("rating", rating);
     // myForm.set("comment", comment);
@@ -75,7 +75,7 @@ const ProductDetails = ({ match }) => {
     if(error) dispatch(clearErrors);
     console.log("dispatched funtion started");
     dispatch(getProductDetails(id));
-  }, [dispatch, id]);
+  }, [dispatch, id,error]);
 
   return (
     <Fragment>
@@ -116,7 +116,8 @@ const ProductDetails = ({ match }) => {
               <div className="detailsBlock-3-1">
                 <div className="detailsBlock-3-1-1">
                   <button onClick={decreaseQuantity}>-</button>
-                  <input readOnly type="number" value={quantity} />
+                  {/* <input  type="number" value={100} style={{border:"1px solid black"}} /> */}
+                  <span>{quantity}</span>
                   <button onClick={increaseQuantity}>+</button>
                 </div>
                 <button

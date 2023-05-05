@@ -2,21 +2,23 @@ const User = require("../models/User");
 const productService = require("../services/productService");
 const userService = require("../services/userService");
 const sendEmail = require("../utils/passwordRecover");
-const cloudinary=require('cloudinary').v2;
+const cloudinary = require("cloudinary").v2;
 const userservice = new userService();
 
 const Register = async (req, res, next) => {
-
-  try {  
+  try {
     const myCloud = await cloudinary.uploader.upload(`${req.body.avatar}`, {
       folder: "avatars",
       width: 150,
       crop: "scale",
     });
-    const response = await userservice.Create({...req.body,avatar:{
-      public_id: myCloud.public_id,
-      url:myCloud.secure_url
-    }});
+    const response = await userservice.Create({
+      ...req.body,
+      avatar: {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      },
+    });
     return res.status(201).json({
       success: true,
       message: "user is succesfully registered",
@@ -34,7 +36,7 @@ const Register = async (req, res, next) => {
 };
 const Login = async (req, res, next) => {
   try {
-    const {response,token} = await userservice.login(req.body);
+    const { response, token } = await userservice.login(req.body);
 
     const option = {
       expires: new Date(
@@ -121,7 +123,7 @@ const forgotPassword = async (req, res, next) => {
 const getUserDeatils = async (req, res, next) => {
   try {
     const response = await userservice.findUser(req.user._id);
-    console.log(response,"response")
+    console.log(response, "response");
     res.status(200).json({
       success: true,
       message: "sucessfully fetched user details",
@@ -138,11 +140,32 @@ const getUserDeatils = async (req, res, next) => {
 };
 const updateUserDetails = async (req, res, next) => {
   try {
-    const { name, email } = req.body;
+    const { name, email, avatar } = req.body;
+    const updatedOption = {
+      name,
+      email,
+    };
     if (!(name && email)) {
       throw new Error("please provide name or email to update");
     }
-    const response = await userservice.update(req.user._id, { name, email });
+
+    if (avatar) {
+      const user = await userservice.findUser({ email });
+      if (user.avatar.public_id != "") {
+        const resp = await cloudinary.uploader.destroy(user.avatar.public_id);
+        const myCloud = await cloudinary.uploader.upload(`${req.body.avatar}`, {
+          folder: "avatars",
+          width: 150,
+          crop: "scale",
+        });
+
+        updatedOption.avatar = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+      }
+    }
+    const response = await userservice.update(req.user._id, updatedOption);
     return res.status(201).json({
       sucess: true,
       message: "sucessfully updated",
@@ -242,8 +265,8 @@ const getAllUser = async (req, res, next) => {
     const { id } = req.params;
 
     let response;
-    if (id!='getAll') {
-      response = await userservice.findUser({_id:id});
+    if (id != "getAll") {
+      response = await userservice.findUser({ _id: id });
     } else {
       response = await userservice.findAllUser();
     }
@@ -263,7 +286,6 @@ const getAllUser = async (req, res, next) => {
   }
 };
 
-
 module.exports = {
   LogOut,
   Login,
@@ -275,5 +297,4 @@ module.exports = {
   deleteUserAdmin,
   updateUserByAdmin,
   getAllUser,
-  
 };

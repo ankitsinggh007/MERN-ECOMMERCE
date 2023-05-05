@@ -13,6 +13,9 @@ import { loadUser } from "./actions/userAction.js";
 import UserOptions from "./components/layout/Header/UserOptions.js";
 import { useSelector } from "react-redux";
 import Profile from './components/User/Profile.js';
+import UpdateProfile from "./components/User/UpdateProfile.js";
+import UpdatePassword from "./components/User/UpdatePassword.js";
+import Cart from "./components/Cart/Cart.js";
 function App() {
   const {isAuthenticated,user}=useSelector(state=>state.user);
   useEffect(()=>{
@@ -23,7 +26,6 @@ function App() {
     })
     store.dispatch(loadUser());
   },[]);
-  console.log(isAuthenticated,user,"from app.js")
   return (
     <Router>
     <Header/>
@@ -34,8 +36,11 @@ function App() {
     <Route exact path='/products' Component={Products}/>
     <Route exact path='/products/:keyword' Component={Products}/>
     <Route exact path='/search' Component={Search}/>
-    <Route exact path='/account' Component={Profile}/>
+    {isAuthenticated &&<Route exact path='/account' Component={Profile}/>}
+    {isAuthenticated &&<Route exact path='/profile/update' Component={UpdateProfile}/>}
+    {isAuthenticated &&<Route exact path='/password/update' Component={UpdatePassword }/>}
     <Route exact path='/login' Component={LoginSignUp}/>
+    <Route exact path='/cart' Component={Cart}/>
     </Routes>
     <Footer/>
     </Router>

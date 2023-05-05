@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, getProduct } from "../../actions/productAction";
 import Loader from "../layout/Loader/Loader";
 import ProductCard from "../Home/ProductCard";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import Slider from "@material-ui/core/Slider";
 // import { useAlert } from "react-alert";
@@ -42,14 +42,14 @@ const Products = ({ match }) => {
   } = useSelector((state) => state.products);
   
      
-  const [searchParams, setSearchParams] = useSearchParams();
+  // const [searchParams, setSearchParams] = useSearchParams();
   const{keyword}=useParams();
   console.log(keyword,"keyword")
   const params = [];
 
-  searchParams.forEach((value, key) => {
-    params.push([key, value]);
-  });
+  // searchParams.forEach((value, key) => {
+  //   params.push([key, value]);
+  // });
 
   console.log(params,"params"); // [["page", 5], ["pageSize", 25]]
 

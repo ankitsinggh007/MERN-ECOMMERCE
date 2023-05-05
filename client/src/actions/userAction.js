@@ -110,7 +110,7 @@ import {
   
       const config = { headers: { "Content-Type": "multipart/form-data" } };
   
-      const { data } = await axios.put(`/api/v1/me/update`, userData, config);
+      const { data } = await axios.put(`/api/v1/user/update_profile`, userData, config);
   
       dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success });
     } catch (error) {
@@ -129,7 +129,7 @@ import {
       const config = { headers: { "Content-Type": "application/json" } };
   
       const { data } = await axios.put(
-        `/api/v1/password/update`,
+        `/api/v1/user/update_password`,
         passwords,
         config
       );
