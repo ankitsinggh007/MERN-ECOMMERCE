@@ -1,2 +1,15 @@
 node_modules/
 api/config
+frontend/node_modules
+/.pnp
+.pnp.js
+
+# testing
+frontend/coverage
+
+# production
+frontend/build
+
+# misc
+frontend/.DS_Store
+frontend/.env.local

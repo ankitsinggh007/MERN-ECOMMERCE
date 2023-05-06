@@ -1,7 +1,12 @@
 const Connect = require('./config/databseConfig');
 const cloudinary=require('cloudinary').v2;
-require('dotenv').config({path:"api/config/Config.env"});
 
+
+
+if(process.env.NODE_ENV !== 'PRODUCTION'){
+    require('dotenv').config({path:"api/config/Config.env"});
+
+}
 const app=require('./app');
 
 
